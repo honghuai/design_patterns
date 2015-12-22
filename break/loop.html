@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*break只退出当前循环，多层循环需要多次break，continue则只是跳过当次循环*/
+/*return取代 设置循环标记*/
+   for(var k=0;k<3;k++) {
+       outloop:
+       for( var i = 0; i <= 4; i++) {
+           innerloop:
+           if(i === 2 ) {
+               break outloop;
+           }
+           console.log("遇到2的时候跳出当前循环（跑到外层循环体执行去了）："+i);
+//           console.log("k="+k);
+       }
+   }
+
+    for(var i=0;i<5;i++) {
+        if(i==3) {
+            continue;
+        }
+        console.log("在遇到3则跳过："+i);
+    }
+
+    for(var k=0;k<3;k++) {
+        if(k===1) {
+            break;
+        }
+        for(var i=0;i<=4;i++) {
+            if(i===2) {
+                break;
+            }
+            console.log("m="+i);
+        }
+    }
+/*issue1:下面func函数内可以用return退出多重循环，但如果去掉var func = function(){}，直接将for循环裸露写出来，同时用return则会报错Uncaught SyntaxError: Illegal return statement*/
+    var func = function() {
+        for(var i=0;i<4;i++) {
+            if(i===2) {
+                return;
+            }
+            console.log("用return遇到2就停止执行代码："+i);
+        }
+    }
+    func();
+</script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分解大型类</title>
+</head>
+<body>
+
+</body>
+<script>
+    var spirit = function() {
+        this.name = "honghuai";
+
+    }
+    spirit.prototype = {
+        sayHi: function(name) {
+            return "this is a sayHi function to " + name;
+        },
+        sayBad: function() {
+            console.log("sayBad " + this.name);
+        },
+        sayGood: function(id) {
+            this.id = id;//让方法调用结束后返回对象本身
+            return "this is a sayGood function to " + this.id;
+        },
+        returnUser: function() {
+            this.user = "userName";
+        },
+        returnThis: function(pwd) {
+            this.pwd = pwd;
+            return this;
+        }
+    }
+    var Spirit = new spirit();
+    var toSayHi = Spirit.sayHi("fan");
+    var toSayGood = Spirit.sayGood("uuid");
+    var toReturnThis = Spirit.returnThis(123456);
+    var toReturnUser = Spirit.returnUser();
+    console.log(toSayHi);
+    console.log(toSayGood);
+    console.log(toReturnThis);
+    Spirit.sayBad();
+</script>
+</html>
