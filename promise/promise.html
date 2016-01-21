@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>promise方法</title>
+</head>
+<body>
+<div id="wrap">
+    <div id="inner">
+        <input type="button" value="1">
+        <input type="button" value="2">
+    </div>
+</div>
+</body>
+<script>
+    var inner = document.getElementById("inner");
+    var inputLen = inner.getElementsByTagName("input").length;
+    console.log("標籤長度的類型為："+typeof inputLen);
+    /*1.Promise.resolve()可以存儲任意類型的參數*/
+    var p = Promise.resolve({num:[1,2,3],name:"honghuai"});
+    p.then(function(v) {
+        console.log(v.num[0]); // 1
+        console.log(v.name)
+    });
+
+    /*2.resolve方法也可以存储另一个promise对象*/
+    var original = Promise.resolve(true);
+    var cast = Promise.resolve(original);
+    cast.then(function(v) {
+        console.log(v)
+    })
+    /*以下结果会在上面之前输出，是否可以猜测全局变量会比resolve存储方式执行快些*/
+    var bol = true;
+    if(!!bol) {
+        console.log(typeof bol)
+    }
+
+    /*3.抛出异常*/
+    var p1 = Promise.resolve({
+        then:function(ok,cancel) {
+            ok("this is a ok function");
+            cancel("this is a cancel function");
+        }
+    })
+    console.log("p1 instanceof Promise的执行结果："+ (p1 instanceof Promise));
+    p1.then(function(v) {
+        console.log(v);//this is a ok function
+    },function(v) {
+        console.log(v);// not called
+    })
+
+    /*3-1.在回调前抛出异常，promise被拒绝*/
+    var thenable = {
+        then: function(resolve) {
+            throw new TypeError("Throwing");
+            resolve("this a Resolving");
+        }
+    }
+    var p2 = Promise.resolve(thenable);
+    p2.then(function(v) {
+        console.log("if done? yes");//not called
+    },function(e) {
+        console.log(e);
+    })
+
+    /*3-2.在回调后抛出异常，promise被允许执行*/
+    var thenable2 = {
+        then: function(resolve) {
+            resolve("this is a Resolving");
+            throw new TypeError("Throwing");
+        }
+    }
+    var p3 = Promise.resolve(thenable2);
+    p3.then(function(v) {
+        console.log(v);
+    },function(e) {
+        console.log("if done? yes2");//not called
+    })
+
+    /*4.then方法的使用*/
+    var p4 = new Promise(function(resolve,reject) {
+        resolve("success!");
+//          or
+        reject("fail!");//若只显示reject方法，则p4.then的第二个函数输出fail，第一个函数不执行
+    })
+    p4.then(function(v) {
+        console.log(v);//success!
+    },function(v) {
+        console.log(v);
+    })
+</script>
+</html>

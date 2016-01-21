@@ -5,16 +5,52 @@
     <title>闭包的概念</title>
 </head>
 <body>
-
+<h1>闭包的概念</h1>
+(1)定义了一个wrap函数<br/>
+(2)在A中定义了showNum函数<br/>
+(3)在wrap中返回showNum（在wrap中返回showNum的引用）<br/>
+(4)执行wrap(),把wrap的返回结果赋值给变量 c<br/>
+(5)执行 c()<br/>
+闭包的定义：<br/>
+当一个内部函数被其外部函数之外的变量引用时，就形成了一个闭包。<br/>
+<p>例子：</p>
+<pre>
+    function wrap() {
+        var count = 0;
+        function showNum() {
+            count ++;
+            console.log("num = " + count);
+        }
+        return showNum;
+    }
+/*wrap中的count一直保存在内存中*/
+    wrap()();//1
+    var c = wrap();
+    c();//1
+    c();//2
+    c();//3
+    var d = wrap();
+    d();//1
+</pre>
 </body>
 <script>
-    var count = 0;
-    function showNum() {
-        count ++;
-        console.log("num = " + count);
+
+    function wrap() {
+        var count = 0;
+        function showNum() {
+            count ++;
+            console.log("num = " + count);
+        }
+        return showNum;
     }
-    showNum();
-    showNum();
-    showNum();
+/*wrap中的count一直保存在内存中*/
+    wrap()();//1
+   var c = wrap();
+    c();//1
+    c();//2
+    c();//3
+    var d = wrap();
+    d();//1
+
 </script>
 </html>

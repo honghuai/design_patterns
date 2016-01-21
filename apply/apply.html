@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>apply方法的使用</title>
+</head>
+<body>
+
+</body>
+<script>
+    Function.prototype.construct = function(aArgs) {
+        var fConstructor = this, fNewConstr = function() {
+            fConstructor.apply(this, aArgs);
+        };
+        fNewConstr.prototype = fConstructor.prototype;
+        return new fNewConstr();
+    }
+    function MyConstructor() {
+        for (var n = 0; n < arguments.length; n++) {
+            this['property' + n] = arguments[n];
+        }
+    }
+
+    var myArray = [4, 'Hello world!', false];
+    var myInstance = MyConstructor.construct(myArray);
+
+    console.log(myInstance.property1);                // logs 'Hello world!'
+    console.log(myInstance instanceof MyConstructor); // logs 'true'
+    console.log(myInstance.constructor);              // logs 'MyConstructor'
+</script>
+</html>

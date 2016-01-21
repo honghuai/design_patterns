@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>call方法回调匿名函数</title>
+</head>
+<body>
+
+</body>
+<script>
+var time = [
+    {
+        timeDate: "good morning",
+        say: "hi"
+    },
+    {
+        timeDate: "good afternoon",
+        say: "hello"
+    }
+];
+    for(var i=0;i<time.length;i++) {
+        (function(i) {
+            this.print = function() {
+                console.log("序号i = " + i + " " + this.timeDate + ": " + this.say);
+            }
+            this.print();
+        }).call(time[i],i);
+    }
+
+    /*sayGood调用data数据：将this指向data数据内容*/
+    function sayGood() {
+        var reply = [this.person,"is a good",this.role].join(" ");
+        console.log(reply);
+    }
+    var data = {
+        person: "honghuai",
+        role: "IT"
+    }
+    sayGood.call(data);
+</script>
+</html>

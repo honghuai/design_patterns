@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>call的使用</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*使用call方法关联一个构造对象方法*/
+    function Product(name,pwd) {
+        this.name = name;
+        this.pwd = pwd;
+        if(pwd != "123456") {
+            throw RangeError("this pwd is not 123456 " + this.name +" please change another");
+        } else {
+            console.log("your pwd is right");
+        }
+    }
+    function Change(name,pwd) {
+        Product.call(this,name,pwd);
+        this.category = "change";
+    }
+    function Other(name,pwd) {
+        Product.call(this,name,pwd);
+        this.category = "other";
+    }
+    var we = new Other("ours","123456");//your pwd is right
+    var mind = new Change("honghuai","123");
+    var you = new Other("he","456");//Uncaught RangeError: this pwd is not 123456 honghuai please change another
+    //Product
+    //Change
+    //(anonymous function)
+
+</script>
+</html>

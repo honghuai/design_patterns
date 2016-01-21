@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>window全局方法构造</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*1.window全局方法*/
+    window.constructor.prototype.toFirst = function(){
+        console.log("执行window方法1");
+    }
+    window.constructor.prototype.toSecond = function(){
+        console.log("执行window方法2");
+    }
+    window.toFirst();
+    window.toSecond();
+    /*2.自定义方法*/
+    var hong = function(){};
+    hong.prototype = {
+        to:function() {
+            console.log("执行自定义hong方法");
+        }
+
+    }
+    new hong().to();
+
+
+    var posData = {
+        "name": "honghuai",
+        "sex": "man",
+        "hobby": "magic",
+        "friend": [
+            {
+                "name": "xm",
+                "relationship": "classmate"
+            },
+            {
+                "name": "carl",
+                "relationship": "roommate"
+            }
+        ]
+    }
+    /*3.全局方法：请求回调*/
+
+    function callback(retData) {
+        var preTag = document.createElement("pre");
+        document.body.appendChild(preTag);
+        preTag.innerHTML = retData;
+    }
+    window.constructor.prototype.toLogin = function(){
+        console.log("执行toLogin");
+        var name = "json_" + parseInt(new Date().getTime());//随机生成的函数名通过时间戳,避免重名
+        window[name] = function(jsonData) {
+            var json = JSON.stringify(jsonData);
+            window[name] = undefined;// 执行这个函数后，销毁函数
+            callback(json);
+        }
+        return window[name];
+    }
+    window.toLogin()(posData);
+</script>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var num = [1,2,3,4,5];
+    console.log(Math.min(11,22))
+    var max = Math.max.apply(null,num);
+    var min = Math.min.apply(null,num);
+    console.log(max);
+    console.log(min);
+//    max = -Infinity,min = +Infinity;
+    for(var i=0; i<num.length;i++) {
+        if(num[i] > max) {
+            max = num[i];
+            console.log("最大值：" +max);
+        }
+        if(num[i] < min) {
+            min = num[i];
+        }
+        console.log(i)
+    }
+/*下面的函数方法不懂arr.slice(i,Math.min(i+QUANTUM,len))*/
+    function minOfArray(arr) {
+        var min = Infinity;
+        var len = arr.length;
+        var QUANTUM = 32768;
+        for(var i=0;i<len; i += QUANTUM) {
+            var submin = Math.min.apply(null,arr.slice(i,Math.min(i+QUANTUM,len)));
+            min = Math.min(submin,min);
+        }
+        return min;
+    }
+    var min = minOfArray([11,3,12,5,6]);
+    console.log("最小值：" + min);
+</script>
+</html>
