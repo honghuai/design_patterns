@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>存取器get与set</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*一、存取器不允许直接调用，要get/set，实现数据变动观测*/
+    var data = {
+        name:"honghuai",
+        getName: function() {
+            return this.name;
+        },
+        setName: function(_name) {
+            this.name = _name;
+        }
+    }
+    console.log(data.name);//打印出honghuai
+    var a = data.getName();
+    console.log(a);
+    var b = data.setName("fanhh");
+    a = data.getName();
+    console.log(a);
+
+
+    /*二、不同的存储地址*/
+    /*1.B跟A的内存地址是不一致的，简单类型的赋值会进行复制，所以a跟b不相等*/
+    var A = 1;
+    var B = A;
+    B = 2;
+    console.log(A);//1
+    console.log(B);//2
+    console.log(A == B);//false
+
+    /*2.C和D指向相同的内存地址，所以只要修改了D的counter，C里面的counter也会跟着变。*/
+    var C = {
+        age:"1"
+    }
+    var D = C;
+    D.age = 2;
+    console.log(C.age);//2
+    console.log(D.age);//2
+    console.log(C.age == D.age);//true
+
+    /*关于赋值：
+    * 在赋值的时候，一般是在外层整体赋值一个类似数组的数据，而不是自己挨个在每个列表项上赋值
+    * */
+
+    window.navigate('http://my.oschina.net/ososchina/blog');
+</script>
+</html>

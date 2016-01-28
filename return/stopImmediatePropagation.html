@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<form>
+    <input type="text" id="txt1">
+    　　　　 <input type="text" id="txt2">
+    <input type="submit" value="button" id="btn">
+</form>
+<script>
+    /*stopImmediatePropagation 的功能比stopPropagation 多一些，除了可以阻止事件冒泡之外，还可以把这个元素绑定的同类型事件也阻止*/
+    var txt1 = document.querySelector("#txt1");
+    var txt2 = document.querySelector("#txt2");
+    var btn = document.querySelector("#btn");
+
+    btn.addEventListener("click", function(event) {
+        if (txt1.value == '') {
+            alert('error1');
+            event.stopImmediatePropagation();//防止下面其他绑定在btn即同一事件触发
+            return;//相当于断点，无法执行下面代码
+        }
+        if (txt2.value == '') {
+            alert('error2');
+            event.stopImmediatePropagation();
+        }
+
+
+    }, false);
+
+    btn.addEventListener("click", function() {
+        alert('Done');
+    });
+</script>
+</body>
+</html>
