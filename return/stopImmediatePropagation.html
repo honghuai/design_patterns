@@ -1,23 +1,56 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
 </head>
+<style type="text/css">
+    div {
+        padding: 20px;
+        width: 100px;
+        height: 100px;
+    }
+
+    #box1 {
+        background-color: red;
+    }
+
+    #box2 {
+        background-color: blue;
+    }
+
+    #box3 {
+        background-color: pink;
+    }
+</style>
 <body>
 <form>
     <input type="text" id="txt1">
     　　　　 <input type="text" id="txt2">
     <input type="submit" value="button" id="btn">
+    <br/>
+    <div id="box1">
+        <div id="box2">
+            <div id="box3"></div>
+        </div>
+    </div>
 </form>
 <script>
-    /*stopImmediatePropagation 的功能比stopPropagation 多一些，除了可以阻止事件冒泡之外，还可以把这个元素绑定的同类型事件也阻止*/
+    /*
+     *return 不仅阻止了事件往上冒泡，而且阻止了事件本身
+     *event.stopPropagation() 则只阻止事件往上冒泡，不阻止事件本身
+     *stopImmediatePropagation 的功能比stopPropagation 多一些，除了可以阻止事件冒泡之外，还可以把这个元素绑定的同类型事件也阻止
+     *
+     * */
+    /*return*/
     var txt1 = document.querySelector("#txt1");
     var txt2 = document.querySelector("#txt2");
     var btn = document.querySelector("#btn");
 
-    btn.addEventListener("click", function(event) {
+    btn.addEventListener("click", function (event) {
         if (txt1.value == '') {
             alert('error1');
-            event.stopImmediatePropagation();//防止下面其他绑定在btn即同一事件触发
+//            event.stopImmediatePropagation();//防止下面其他绑定在btn即同一事件触发，即防止下面btn.addEventListener触发
             return;//相当于断点，无法执行下面代码
         }
         if (txt2.value == '') {
@@ -28,9 +61,26 @@
 
     }, false);
 
-    btn.addEventListener("click", function() {
+    btn.addEventListener("click", function () {
         alert('Done');
     });
+
+    /*stopImmediatePropagation*/
+    var box1 = document.getElementById("box1");
+    box1.onclick = function(e) {
+        alert(1);
+    }
+    box2.onclick = function(e) {
+        alert(2);
+    }
+    box3.onclick = function(e) {
+        alert(3);
+        // e.stopPropagation();//阻止向上冒泡,但不阻止这个元素绑定的同类型事 依次弹出 3 3-2
+        e.stopImmediatePropagation();//既阻止向上冒泡，也把这个元素绑定的同类型事件也阻止 只弹出3
+    }
+    box3.addEventListener("click", function(e){
+        alert("3-2");
+    }, false);
 </script>
 </body>
 </html>
